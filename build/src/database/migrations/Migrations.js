@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const OrderDatabase_1 = require("./../OrderDatabase");
+const PizzaDatabase_1 = require("./../PizzaDatabase");
 const BaseDatabase_1 = require("../BaseDatabase");
-const UserDatabase_1 = require("../UserDatabase");
-const data_1 = require("./data");
 class Migrations extends BaseDatabase_1.BaseDatabase {
     constructor() {
         super(...arguments);
@@ -30,21 +30,43 @@ class Migrations extends BaseDatabase_1.BaseDatabase {
         };
         this.createTables = async () => {
             await BaseDatabase_1.BaseDatabase.connection.raw(`
-        DROP TABLE IF EXISTS ${UserDatabase_1.UserDatabase.TABLE_USERS};
-        
-        CREATE TABLE IF NOT EXISTS ${UserDatabase_1.UserDatabase.TABLE_USERS}(
-            id VARCHAR(255) PRIMARY KEY,
-            name VARCHAR(255) NOT NULL,
-            email VARCHAR(255) NOT NULL UNIQUE,
-            password VARCHAR(255) NOT NULL,
-            role ENUM("NORMAL", "ADMIN") DEFAULT "NORMAL" NOT NULL
-        );
 
+      
+      DROP TABLE IF EXISTS ${OrderDatabase_1.OrderDatabase.TABLE_ORDER_ITEMS};
+      DROP TABLE IF EXISTS ${OrderDatabase_1.OrderDatabase.TABLE_ORDERS};
+      DROP TABLE IF EXISTS ${PizzaDatabase_1.PizzaDatabase.TABLE_PIZZAS_INGREDIENTS};
+      DROP TABLE IF EXISTS ${PizzaDatabase_1.PizzaDatabase.TABLE_INGREDIENTS};
+      DROP TABLE IF EXISTS ${PizzaDatabase_1.PizzaDatabase.TABLE_PIZZAS};
     
+      CREATE TABLE IF NOT EXISTS ${PizzaDatabase_1.PizzaDatabase.TABLE_PIZZAS} (
+        name VARCHAR(255) PRIMARY KEY,
+          price DECIMAL(3,2) NOT NULL
+      );
+
+      CREATE TABLE IF NOT EXISTS ${PizzaDatabase_1.PizzaDatabase.TABLE_INGREDIENTS} (
+        name VARCHAR(255) PRIMARY KEY
+      );
+
+      CREATE TABLE IF NOT EXISTS ${PizzaDatabase_1.PizzaDatabase.TABLE_PIZZAS_INGREDIENTS} (
+        pizza_name VARCHAR(255) NOT NULL,
+          ingredient_name VARCHAR(255) NOT NULL,
+          FOREIGN KEY (pizza_name) REFERENCES ${PizzaDatabase_1.PizzaDatabase.TABLE_PIZZAS}(name),
+          FOREIGN KEY (ingredient_name) REFERENCES ${PizzaDatabase_1.PizzaDatabase.TABLE_INGREDIENTS}(name)
+      );
+
+      CREATE TABLE IF NOT EXISTS ${OrderDatabase_1.OrderDatabase.TABLE_ORDERS} (
+        id VARCHAR(255) PRIMARY KEY
+      );
+
+      CREATE TABLE IF NOT EXISTS ${OrderDatabase_1.OrderDatabase.TABLE_ORDER_ITEMS} (
+        id VARCHAR(255) PRIMARY KEY,
+        pizza_name VARCHAR(255) NOT NULL,
+          quantity TINYINT,
+          FOREIGN KEY (pizza_name) REFERENCES ${PizzaDatabase_1.PizzaDatabase.TABLE_PIZZAS}(name)
+      );
         `);
         };
         this.insertData = async () => {
-            await BaseDatabase_1.BaseDatabase.connection(UserDatabase_1.UserDatabase.TABLE_USERS).insert(data_1.users);
         };
     }
 }
