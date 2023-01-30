@@ -1,4 +1,4 @@
-import { Order } from "./../../models/Order";
+import { ingredientsSeed, pizzasIngredientsSeed, pizzasSeed } from "./data";
 import { OrderDatabase } from "./../OrderDatabase";
 import { PizzaDatabase } from "./../PizzaDatabase";
 import { BaseDatabase } from "../BaseDatabase";
@@ -10,7 +10,7 @@ class Migrations extends BaseDatabase {
       await this.createTables();
       console.log("Tables created successfully.");
 
-      console.log("Populating tables...");
+      console.log("Populating tables with seed...");
       await this.insertData();
       console.log("Tables populated successfully.");
 
@@ -67,7 +67,15 @@ class Migrations extends BaseDatabase {
   };
 
   insertData = async () => {
-    // await BaseDatabase.connection(UserDatabase.TABLE_USERS).insert(users);
+    await BaseDatabase.connection(PizzaDatabase.TABLE_PIZZAS).insert(
+      pizzasSeed
+    );
+    await BaseDatabase.connection(PizzaDatabase.TABLE_INGREDIENTS).insert(
+      ingredientsSeed
+    );
+    await BaseDatabase.connection(
+      PizzaDatabase.TABLE_PIZZAS_INGREDIENTS
+    ).insert(pizzasIngredientsSeed);
   };
 }
 

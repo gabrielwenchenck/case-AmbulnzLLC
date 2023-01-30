@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const data_1 = require("./data");
 const OrderDatabase_1 = require("./../OrderDatabase");
 const PizzaDatabase_1 = require("./../PizzaDatabase");
 const BaseDatabase_1 = require("../BaseDatabase");
@@ -67,6 +68,9 @@ class Migrations extends BaseDatabase_1.BaseDatabase {
         `);
         };
         this.insertData = async () => {
+            await BaseDatabase_1.BaseDatabase.connection(PizzaDatabase_1.PizzaDatabase.TABLE_PIZZAS).insert(data_1.pizzasSeed);
+            await BaseDatabase_1.BaseDatabase.connection(PizzaDatabase_1.PizzaDatabase.TABLE_INGREDIENTS).insert(data_1.ingredientsSeed);
+            await BaseDatabase_1.BaseDatabase.connection(PizzaDatabase_1.PizzaDatabase.TABLE_PIZZAS_INGREDIENTS).insert(data_1.pizzasIngredientsSeed);
         };
     }
 }

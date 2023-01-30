@@ -43,3 +43,23 @@ export class Order {
     return this.orderItems.filter((orderItem) => orderItem.id !== id);
   };
 }
+
+export interface ICreateOrderInputDTO {
+  pizzas: {
+    name: string;
+    quantity: number;
+  }[];
+}
+
+export interface ICreateOrderOutputDTO {
+  message: "Pedido realizado com sucesso";
+  order: {
+    id: string;
+    pizzas: {
+      name: string;
+      quantity: number;
+      price: number;
+    }[];
+    total: number;
+  };
+}
