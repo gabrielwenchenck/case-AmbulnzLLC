@@ -12,6 +12,16 @@ class PizzaDatabase extends BaseDatabase_1.BaseDatabase {
             };
             return pizzaDB;
         };
+        this.getPizzas = async () => {
+            const result = await BaseDatabase_1.BaseDatabase.connection(PizzaDatabase.TABLE_PIZZAS).select("*");
+            return result;
+        };
+        this.getIngredients = async (pizzaName) => {
+            const result = await BaseDatabase_1.BaseDatabase.connection(PizzaDatabase.TABLE_PIZZAS_INGREDIENTS)
+                .select("ingredient_name")
+                .where({ pizza_name: pizzaName });
+            return result.map((item) => item.ingredient_name);
+        };
     }
 }
 exports.PizzaDatabase = PizzaDatabase;
