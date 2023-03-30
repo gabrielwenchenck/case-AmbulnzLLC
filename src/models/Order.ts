@@ -39,7 +39,7 @@ export class Order {
     this.orderItems.push(newOrderItem);
   };
 
-  public deleteIngredient = (id: string) => {
+  public deleteOrderItem = (id: string) => {
     return this.orderItems.filter((orderItem) => orderItem.id !== id);
   };
 }

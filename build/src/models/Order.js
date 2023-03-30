@@ -17,7 +17,7 @@ class Order {
         this.addOrderItem = (newOrderItem) => {
             this.orderItems.push(newOrderItem);
         };
-        this.deleteIngredient = (id) => {
+        this.deleteOrderItem = (id) => {
             return this.orderItems.filter((orderItem) => orderItem.id !== id);
         };
     }
