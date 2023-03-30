@@ -14,7 +14,7 @@ export class PizzaController {
       if (error instanceof BaseError) {
         return res.status(error.statusCode).send({ message: error.message });
       }
-      res.status(500).send({ message: "Erro ao buscar" });
+      res.status(500).send({ message: "Erro ao buscar pizzas" });
     }
   };
 }

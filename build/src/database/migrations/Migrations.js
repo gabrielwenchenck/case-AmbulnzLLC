@@ -12,7 +12,7 @@ class Migrations extends BaseDatabase_1.BaseDatabase {
                 console.log("Creating tables...");
                 await this.createTables();
                 console.log("Tables created successfully.");
-                console.log("Populating tables...");
+                console.log("Populating tables with seed...");
                 await this.insertData();
                 console.log("Tables populated successfully.");
                 console.log("Migrations completed.");
