@@ -2,7 +2,7 @@ export interface IOrderDB {
   id: string;
 }
 
-export interface IOrderItemsDB {
+export interface IOrderItemDB {
   id: string;
   pizza_name: string;
   quantity: number;
@@ -52,7 +52,7 @@ export interface ICreateOrderInputDTO {
 }
 
 export interface ICreateOrderOutputDTO {
-  message: "Pedido realizado com sucesso";
+  message: string;
   order: {
     id: string;
     pizzas: {
