@@ -34,8 +34,8 @@ export class OrderDatabase extends BaseDatabase {
   public getOrders = async (): Promise<IOrderDB[]> => {
     const result: IOrderDB[] = await BaseDatabase.connection(
       OrderDatabase.TABLE_ORDERS
-    ).select();
-
+    ).select("*");
+    console.log(result);
     return result;
   };
 
@@ -43,7 +43,7 @@ export class OrderDatabase extends BaseDatabase {
     const result: IOrderItemDB[] = await BaseDatabase.connection(
       OrderDatabase.TABLE_ORDER_ITEMS
     )
-      .select()
+      .select("*")
       .where({ order_id: orderId });
 
     return result;

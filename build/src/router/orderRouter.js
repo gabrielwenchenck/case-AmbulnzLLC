@@ -9,4 +9,5 @@ const IdGenerator_1 = require("../services/IdGenerator");
 exports.orderRouter = (0, express_1.Router)();
 const orderController = new orderController_1.OrderController(new orderBusiness_1.OrderBusiness(new OrderDatabase_1.OrderDatabase(), new IdGenerator_1.IdGenerator()));
 exports.orderRouter.post("/", orderController.createOrder);
+exports.orderRouter.get("/", orderController.getOrders);
 //# sourceMappingURL=orderRouter.js.map

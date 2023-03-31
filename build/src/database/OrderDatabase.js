@@ -15,10 +15,21 @@ class OrderDatabase extends BaseDatabase_1.BaseDatabase {
             const result = await BaseDatabase_1.BaseDatabase.connection(PizzaDatabase_1.PizzaDatabase.TABLE_PIZZAS)
                 .select("price")
                 .where({ name: pizzaName });
-            return result[0];
+            return result[0].price;
         };
         this.insertOrderItem = async (orderItem) => {
             await BaseDatabase_1.BaseDatabase.connection(OrderDatabase.TABLE_ORDER_ITEMS).insert(orderItem);
+        };
+        this.getOrders = async () => {
+            const result = await BaseDatabase_1.BaseDatabase.connection(OrderDatabase.TABLE_ORDERS).select("*");
+            console.log(result);
+            return result;
+        };
+        this.getOrderItem = async (orderId) => {
+            const result = await BaseDatabase_1.BaseDatabase.connection(OrderDatabase.TABLE_ORDER_ITEMS)
+                .select("*")
+                .where({ order_id: orderId });
+            return result;
         };
     }
 }

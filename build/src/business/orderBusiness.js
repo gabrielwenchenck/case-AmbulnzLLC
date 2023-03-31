@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrderBusiness = void 0;
 const NotFoundError_1 = require("../errors/NotFoundError");
 const ParamsError_1 = require("../errors/ParamsError");
+const Order_1 = require("./../models/Order");
 class OrderBusiness {
     constructor(orderDatabase, idGenerator) {
         this.orderDatabase = orderDatabase;
@@ -22,8 +23,6 @@ class OrderBusiness {
                 };
             });
             for (let pizza of pizzas) {
-            }
-            for (let pizza of pizzas) {
                 const price = await this.orderDatabase.getPrice(pizza.name);
                 if (!price) {
                     throw new NotFoundError_1.NotFoundError("Pizza não encontrada");
@@ -31,27 +30,52 @@ class OrderBusiness {
                 pizza.price = price;
             }
             const orderId = this.idGenerator.generate();
-            const itemId = this.idGenerator.generate();
             await this.orderDatabase.createOrder(orderId);
             for (let pizza of pizzas) {
                 const orderItem = {
-                    id: itemId,
+                    id: this.idGenerator.generate(),
                     pizza_name: pizza.name,
                     quantity: pizza.quantity,
                     order_id: orderId,
                 };
                 await this.orderDatabase.insertOrderItem(orderItem);
-                console.log(orderItem);
-                const response = {
-                    message: "Pedido realizado com sucesso",
-                    order: {
-                        id: orderId,
-                        pizzas,
-                        total: pizzas.reduce((a, b) => a + b.price, 0),
-                    },
-                };
-                return response;
             }
+            const total = pizzas.reduce((acc, pizza) => acc + pizza.price * pizza.quantity, 0);
+            const response = {
+                message: "Pedido realizado com sucesso",
+                order: {
+                    id: orderId,
+                    pizzas,
+                    total,
+                },
+            };
+            return response;
+        };
+        this.getOrders = async () => {
+            const ordersDB = await this.orderDatabase.getOrders();
+            const orders = [];
+            for (let orderDB of ordersDB) {
+                const order = new Order_1.Order(orderDB.id, []);
+                const orderItemsDB = await this.orderDatabase.getOrderItem(order.getId());
+                for (let orderItemDB of orderItemsDB) {
+                    const price = await this.orderDatabase.getPrice(orderItemDB.pizza_name);
+                    orderItemDB.price = price;
+                }
+                order.setOrderItems(orderItemsDB);
+                orders.push(order);
+            }
+            const response = {
+                orders: orders.map((order) => ({
+                    id: order.getId(),
+                    pizzas: order.getOrderItems().map((item) => ({
+                        name: item.pizza_name,
+                        quantity: item.quantity,
+                        price: item.price,
+                    })),
+                    total: order.getTotal(),
+                })),
+            };
+            return response;
         };
     }
 }
