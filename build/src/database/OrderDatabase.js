@@ -1,15 +1,24 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrderDatabase = void 0;
+const PizzaDatabase_1 = require("./PizzaDatabase");
 const BaseDatabase_1 = require("./BaseDatabase");
 class OrderDatabase extends BaseDatabase_1.BaseDatabase {
     constructor() {
         super(...arguments);
-        this.toOrderDBModel = (order) => {
-            const orderDB = {
-                id: order.getId(),
-            };
-            return orderDB;
+        this.createOrder = async (orderId) => {
+            await BaseDatabase_1.BaseDatabase.connection(OrderDatabase.TABLE_ORDERS).insert({
+                id: orderId,
+            });
+        };
+        this.getPrice = async (pizzaName) => {
+            const result = await BaseDatabase_1.BaseDatabase.connection(PizzaDatabase_1.PizzaDatabase.TABLE_PIZZAS)
+                .select("price")
+                .where({ name: pizzaName });
+            return result[0];
+        };
+        this.insertOrderItem = async (orderItem) => {
+            await BaseDatabase_1.BaseDatabase.connection(OrderDatabase.TABLE_ORDER_ITEMS).insert(orderItem);
         };
     }
 }

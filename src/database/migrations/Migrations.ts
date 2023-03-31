@@ -58,10 +58,12 @@ class Migrations extends BaseDatabase {
       );
 
       CREATE TABLE IF NOT EXISTS ${OrderDatabase.TABLE_ORDER_ITEMS} (
-        id VARCHAR(255) PRIMARY KEY,
-        pizza_name VARCHAR(255) NOT NULL,
+          id VARCHAR(255) PRIMARY KEY,
+          pizza_name VARCHAR(255) NOT NULL,
           quantity TINYINT,
-          FOREIGN KEY (pizza_name) REFERENCES ${PizzaDatabase.TABLE_PIZZAS}(name)
+          order_id VARCHAR(255) NOT NULL,
+          FOREIGN KEY (pizza_name) REFERENCES ${PizzaDatabase.TABLE_PIZZAS}(name),
+          FOREIGN KEY (order_id) REFERENCES ${OrderDatabase.TABLE_ORDERS}(id)
       );
         `);
   };

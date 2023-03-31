@@ -14,14 +14,32 @@ export interface IOrderItem {
   pizza_name: string;
   quantity: number;
   order_id: string;
+  price: number;
+}
+
+export interface IOrderResume {
+  id: string;
+  pizzas: {
+    name: string;
+    quantity: number;
+    price: number;
+  }[];
+  total: number;
 }
 
 export class Order {
-  constructor(
-    private id: string,
+  private total: number = 0;
+  constructor(private id: string, private orderItems: IOrderItem[]) {
+    this.total = this.calculateTotal();
+  }
 
-    private orderItems: IOrderItem[]
-  ) {}
+  private calculateTotal = () => {
+    const total = this.orderItems.reduce(
+      (acc, pizza) => acc + pizza.price * pizza.quantity,
+      0
+    );
+    return total;
+  };
 
   public getId = () => {
     return this.id;
@@ -42,6 +60,10 @@ export class Order {
   public deleteOrderItem = (id: string) => {
     return this.orderItems.filter((orderItem) => orderItem.id !== id);
   };
+
+  public getTotal = () => {
+    return this.total;
+  };
 }
 
 export interface ICreateOrderInputDTO {
@@ -53,13 +75,9 @@ export interface ICreateOrderInputDTO {
 
 export interface ICreateOrderOutputDTO {
   message: string;
-  order: {
-    id: string;
-    pizzas: {
-      name: string;
-      quantity: number;
-      price: number;
-    }[];
-    total: number;
-  };
+  order: IOrderResume;
+}
+
+export interface IGetOrdersOutputDTO {
+  orders: IOrderResume[];
 }
