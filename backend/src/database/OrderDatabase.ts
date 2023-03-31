@@ -35,7 +35,6 @@ export class OrderDatabase extends BaseDatabase {
     const result: IOrderDB[] = await BaseDatabase.connection(
       OrderDatabase.TABLE_ORDERS
     ).select("*");
-    console.log(result);
     return result;
   };
 
