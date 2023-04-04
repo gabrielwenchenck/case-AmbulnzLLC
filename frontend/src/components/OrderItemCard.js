@@ -5,7 +5,7 @@ export const ContainerLi = styled.li`
 `;
 
 function OrderItemCard(props) {
-  const { pizza } = props;
+  const { pizza, removeFromCart } = props;
   return (
     <ContainerLi>
       <p>
@@ -16,7 +16,7 @@ function OrderItemCard(props) {
         })}{" "}
         x {pizza.quantity}
       </p>
-      <button>Remover item</button>
+      <button onClick={() => removeFromCart(pizza)}>Remover item</button>
     </ContainerLi>
   );
 }

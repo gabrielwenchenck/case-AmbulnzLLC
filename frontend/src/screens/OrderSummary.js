@@ -12,27 +12,30 @@ export const ContainerSection = styled.section`
 `;
 
 function OrderSummary(props) {
-  const { cart } = props;
-  const calculateTotal = () => {
-    const total = cart.reduce(
-      (acc, item) => acc + item.price * item.quantity,
-      0
-    );
-    return total.toLocaleString("na-us", {
-      style: "currency",
-      currency: "BRL",
-    });
-  };
+  const { cart, removeFromCart, total, confirmOrder } = props;
+
   return (
     <ContainerSection>
       <h1>Resumo do pedido</h1>
 
       {cart.map((pizza) => {
-        return <OrderItemCard key={pizza.name} pizza={pizza} />;
+        return (
+          <OrderItemCard
+            key={pizza.name}
+            pizza={pizza}
+            removeFromCart={removeFromCart}
+          />
+        );
       })}
 
-      <h2>Total: {calculateTotal()}</h2>
-      <button>Confirmar pedido</button>
+      <h2>
+        Total:{" "}
+        {total.toLocaleString("na-us", {
+          style: "currency",
+          currency: "BRL",
+        })}
+      </h2>
+      <button onClick={confirmOrder}>Confirmar pedido</button>
     </ContainerSection>
   );
 }
