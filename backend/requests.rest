@@ -1,5 +1,5 @@
 ### Ping
-# GET http://localhost:3003/ping
+ GET http://localhost:3003/ping
 
 ### Get Pizzas
 GET http://localhost:3003/api/pizzas
