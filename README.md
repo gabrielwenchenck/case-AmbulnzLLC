@@ -2,7 +2,6 @@
 
 Bem-vindo à documentação do projeto Ambulnz! Neste documento, você encontrará informações detalhadas sobre a implementação e configuração de uma aplicação de pizzaria, que inclui um backend e um frontend simples, para serem implantados na plataforma de nuvem da Amazon Web Services (AWS).
 
-
 ## Descrição do Projeto
 
 Este projeto foi desenvolvido para fins de demonstração e aprendizado, com o objetivo de mostrar como construir e implantar uma aplicação web completa na AWS, usando várias ferramentas e serviços disponíveis na plataforma. O projeto é composto por um backend, que é responsável pela lógica de negócios e gerenciamento dos pedidos de pizzas, e um frontend, que é a interface do usuário para fazer pedidos e acompanhar o status dos pedidos.
@@ -10,6 +9,9 @@ Este projeto foi desenvolvido para fins de demonstração e aprendizado, com o o
 A API de backend foi construída usando uma estrutura de desenvolvimento de aplicativos web moderna, como o Node.js, Express e MySQL, para criar uma API RESTful que permite adicionar pizzas ao carrinho, remover pizzas do carrinho e finalizar pedido. O frontend é simples e foi desenvolvido usando o framework React.
 
 A implantação da aplicação foi feita na AWS, aproveitando uma série de serviços da plataforma, como o Amazon EC2 para hospedar o backend e o frontend. 
+
+## Link
+http://ec2-54-204-83-98.compute-1.amazonaws.com:3000/
 
 ## Entidades (Typescript)
 
